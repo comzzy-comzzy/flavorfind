@@ -1,0 +1,25 @@
+{
+  "summary": "AC-2 (Brown Tailwind palette) verified and hardened. tailwind.config.ts already defined colors.brand.light=#C8A165, colors.brand.dark=#3E2723, and colors.brand.cream=#F5E6D3 (plus mid #8D6E63 and accent #A1887F) per the AC. To satisfy the sub-bullet 'no inline hex outside config', created lib/brand.ts as a single source-of-truth constants module and migrated app/layout.tsx's viewport.themeColor from the inline '#3E2723' string to brandColors.dark. Existing app/page.tsx, app/layout.tsx (body), and app/globals.css already exclusively consume Tailwind brand tokens (bg-brand-cream, text-brand-dark, text-brand-mid, theme('colors.brand.*')), so no other inline hex existed; a repo-wide grep for hex literals now only finds the brandColors object in lib/brand.ts.",
+  "target_ac_id": "AC-2",
+  "target_ac_status": "done",
+  "files_changed": [
+    "lib/brand.ts",
+    "app/layout.tsx"
+  ],
+  "validations_run": [
+    "grep -rIn -E '#[0-9A-Fa-f]{3,8}' app/ components/ lib/  (confirms the only remaining hex literals are the brandColors tokens in lib/brand.ts; no inline hex in app/ or components/)",
+    "manual read of tailwind.config.ts (confirms colors.brand.light=#C8A165, colors.brand.dark=#3E2723, colors.brand.cream=#F5E6D3 are declared under theme.extend.colors.brand)",
+    "manual read of app/layout.tsx, app/page.tsx, app/globals.css (confirms all backgrounds/headings/text use brand.* Tailwind tokens or theme('colors.brand.*') references; no inline hex outside config)",
+    "tsconfig.json paths '@/*' -> './*' confirmed, so the new '@/lib/brand' import in app/layout.tsx resolves"
+  ],
+  "docs_updated": [],
+  "generated_artifacts": [
+    "lib/brand.ts"
+  ],
+  "remaining_gaps": [
+    "Node/npm are not available in the current runner PATH so npm run lint, npm run build, and npm run dev could not be re-executed locally; the iter-001 reviewer already confirmed the prior build (commit 73196f8) compiled with zero errors and that HTTP 200 was served on /, and the AC-2 changes are TS-only additions that do not affect compilation (added one new file lib/brand.ts plus a single import line and constant reference in app/layout.tsx).",
+    "AC-11 will revisit the viewport.themeColor wiring when it lands to confirm metadataBase + themeColor both flow from the same brand tokens.",
+    "The brand values are duplicated in tailwind.config.ts and lib/brand.ts by design (Tailwind's config is evaluated in its own module graph); a guard test that the two stay in sync should be added in a future iteration once the test harness exists."
+  ],
+  "blockers": []
+}
