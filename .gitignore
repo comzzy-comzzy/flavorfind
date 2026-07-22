@@ -1,10 +1,5 @@
 # dependencies
 node_modules/
-.pnp
-.pnp.js
-
-# testing
-coverage/
 
 # next.js
 .next/
@@ -12,12 +7,10 @@ out/
 
 # production
 build/
-dist/
 
 # misc
 .DS_Store
 *.pem
-Thumbs.db
 
 # debug
 npm-debug.log*
@@ -26,44 +19,23 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env
+.env*.local
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# vercel
-.vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-# editor / OS
+# editor
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# harness-managed state (kept off-repo)
-.rlcr/
-.humanize/
-.cyops/
-.claude/
-.codex/
-.gemini/
-.opencode/
-.cursor/
-.turbo/
-
-# python (in case any tooling uses it later)
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.venv/
-venv/
 
 # logs
+logs/
 *.log
+
+# OS
+Thumbs.db
+
+# vercel
+.vercel
