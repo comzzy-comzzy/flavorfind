@@ -16,7 +16,8 @@
                     "build:pattern":  "tsx scripts/build-pattern.ts",
                     "verify:pattern":  "tsx scripts/verify-pattern.ts",
                     "verify:schema-sql":  "node scripts/verify-schema-sql.mjs",
-                    "verify:recommend":  "tsx scripts/verify-recommend.ts"
+                    "verify:recommend":  "tsx scripts/verify-recommend.ts",
+                    "verify:listing":  "tsx scripts/verify-listing.ts"
                 },
     "dependencies":  {
                          "next":  "14.2.5",
