@@ -13,7 +13,8 @@
                     "verify:logo":  "tsx scripts/verify-logo.ts",
                     "scrape":  "tsx scripts/scrape.ts",
                     "build:pattern":  "tsx scripts/build-pattern.ts",
-                    "verify:pattern":  "tsx scripts/verify-pattern.ts"
+                    "verify:pattern":  "tsx scripts/verify-pattern.ts",
+                    "verify:schema-sql":  "node scripts/verify-schema-sql.mjs"
                 },
     "dependencies":  {
                          "next":  "14.2.5",
@@ -35,6 +36,7 @@
                             "autoprefixer":  "10.4.19",
                             "tsx":  "4.16.2",
                             "eslint":  "8.57.0",
-                            "eslint-config-next":  "14.2.5"
+                            "eslint-config-next":  "14.2.5",
+                            "pg-query-emscripten":  "5.1.0"
                         }
 }

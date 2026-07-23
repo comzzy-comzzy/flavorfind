@@ -1,4 +1,4 @@
-﻿-- =====================================================================
+-- =====================================================================
 -- FlavorFind — restaurant + reviews schema
 -- ---------------------------------------------------------------------
 -- Run this file once against your Supabase project to bootstrap the
@@ -63,6 +63,30 @@ CREATE TABLE IF NOT EXISTS public.restaurants (
 -- restaurant record. `source_url` typically mirrors the restaurant's
 -- `source_url` but is kept on the row so reviews scraped from
 -- independent blog posts can be linked back to their original page.
+--
+-- ---------------------------------------------------------------------
+-- review_count maintenance policy (cached aggregate)
+-- ---------------------------------------------------------------------
+-- `restaurants.review_count` is a CACHED AGGREGATE, NOT a recomputed-
+-- on-read value. The web app and the AC-7 recommendation endpoint
+-- trust this column directly (no sub-select on every row) so that the
+-- ranking query stays cheap and the JSON list endpoint stays within
+-- the Vercel function budget.
+--
+-- Maintenance contract -- the sole writer is scripts/scrape.ts using
+-- the Supabase service-role key. Whenever the scraper inserts new
+-- review rows for a restaurant, it MUST also UPDATE the matching
+-- `restaurants` row to recompute review_count + avg_rating so the two
+-- columns stay consistent. Because the scraper is the only writer, no
+-- INSERT/DELETE trigger is defined here -- the cache invariant is
+-- enforced in application code (TypeScript) where it is easy to test.
+--
+-- If a future AC introduces additional writers (e.g. a user-submitted
+-- review form), either:
+--   (a) add INSERT/DELETE triggers on `public.reviews` that maintain
+--       `restaurants.review_count` and `avg_rating` via SQL, or
+--   (b) switch this to a generated column or a view that aggregates
+--       on read. Until then, the cached-aggregate contract holds.
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.reviews (
   id             uuid          PRIMARY KEY DEFAULT gen_random_uuid(),
