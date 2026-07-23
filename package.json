@@ -12,6 +12,7 @@
                     "build:logo":  "tsx scripts/build-logo.ts",
                     "verify:logo":  "tsx scripts/verify-logo.ts",
                     "scrape":  "tsx scripts/scrape.ts",
+                    "verify:scraper":  "tsx scripts/verify-scraper.ts",
                     "build:pattern":  "tsx scripts/build-pattern.ts",
                     "verify:pattern":  "tsx scripts/verify-pattern.ts",
                     "verify:schema-sql":  "node scripts/verify-schema-sql.mjs"

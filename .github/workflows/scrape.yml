@@ -1,0 +1,86 @@
+name: Scrape FlavorFind data
+
+# Runs the AC-6 scraper weekly so the restaurants + reviews tables stay
+# fresh. Workflow is intentionally lightweight: it does not run
+# `npm run build` (the scraper does not depend on the Next.js build)
+# and it does not lint -- the lint step lives in ci.yml. Concurrency is
+# serialised by the `scrape` group so two weekly jobs never collide if
+# the schedule slips.
+
+on:
+  schedule:
+    # Every Sunday at 03:17 UTC. Picked an off-peak minute so it never
+    # clashes with the more popular "17" / "0" cron slots.
+    - cron: "17 3 * * 0"
+  workflow_dispatch:
+    # Allow ad-hoc runs from the Actions tab so we can re-scrape after
+    # a hot fix without waiting for the next Sunday.
+    inputs:
+      dry_run:
+        description: "Run the scraper in dry-run mode (no DB writes)"
+        type: boolean
+        default: false
+      verbose:
+        description: "Pass --verbose so the log shows every upstream call"
+        type: boolean
+        default: false
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          BLOG_INDEX_URLS: ${{ secrets.BLOG_INDEX_URLS }}
+          SCRAPER_SOURCES: ${{ secrets.SCRAPER_SOURCES }}
+        run: |
+          set -euo pipefail
+          FLAGS=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            FLAGS="--dry-run"
+          fi
+          if [ "${{ inputs.verbose }}" = "true" ]; then
+            FLAGS="$FLAGS --verbose"
+          fi
+          # The `||` branch only fires when --dry-run is set; in that
+          # case exit 0 is expected even if no DB is reachable. The
+          # exit-code policy is enforced by the underlying scraper.
+          if [ -n "$FLAGS" ]; then
+            echo "[scrape] running with flags: $FLAGS"
+            npx tsx scripts/scrape.ts $FLAGS
+          else
+            npx tsx scripts/scrape.ts
+          fi
+
+      - name: Upload scraper log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-log
+          path: |
+            scraper.log
+          if-no-files-found: ignore
+          retention-days: 14
