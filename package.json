@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "predev": "tsx scripts/build-logo.ts",
     "build": "next build",
+    "prebuild": "tsx scripts/build-logo.ts",
     "start": "next start",
     "lint": "next lint",
+    "build:logo": "tsx scripts/build-logo.ts",
     "scrape": "tsx scripts/scrape.ts"
   },
   "dependencies": {
