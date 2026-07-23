@@ -1,38 +1,40 @@
 {
-  "name": "flavorfind",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "predev": "tsx scripts/build-logo.ts",
-    "build": "next build",
-    "prebuild": "tsx scripts/build-logo.ts",
-    "start": "next start",
-    "lint": "next lint",
-    "build:logo": "tsx scripts/build-logo.ts",
-    "verify:logo": "tsx scripts/verify-logo.ts",
-    "scrape": "tsx scripts/scrape.ts"
-  },
-  "dependencies": {
-    "next": "14.2.5",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "@supabase/supabase-js": "2.45.0",
-    "cheerio": "1.0.0-rc.12",
-    "node-fetch": "3.3.2",
-    "zod": "3.23.8"
-  },
-  "devDependencies": {
-    "typescript": "5.5.4",
-    "@types/node": "20.14.10",
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.0",
-    "@types/node-fetch": "3.0.3",
-    "tailwindcss": "3.4.7",
-    "postcss": "8.4.40",
-    "autoprefixer": "10.4.19",
-    "tsx": "4.16.2",
-    "eslint": "8.57.0",
-    "eslint-config-next": "14.2.5"
-  }
+    "name":  "flavorfind",
+    "version":  "0.1.0",
+    "private":  true,
+    "scripts":  {
+                    "dev":  "next dev",
+                    "predev":  "tsx scripts/build-logo.ts \u0026\u0026 tsx scripts/build-pattern.ts",
+                    "build":  "next build",
+                    "prebuild":  "tsx scripts/build-logo.ts \u0026\u0026 tsx scripts/build-pattern.ts",
+                    "start":  "next start",
+                    "lint":  "next lint",
+                    "build:logo":  "tsx scripts/build-logo.ts",
+                    "verify:logo":  "tsx scripts/verify-logo.ts",
+                    "scrape":  "tsx scripts/scrape.ts",
+                    "build:pattern":  "tsx scripts/build-pattern.ts",
+                    "verify:pattern":  "tsx scripts/verify-pattern.ts"
+                },
+    "dependencies":  {
+                         "next":  "14.2.5",
+                         "react":  "18.3.1",
+                         "react-dom":  "18.3.1",
+                         "@supabase/supabase-js":  "2.45.0",
+                         "cheerio":  "1.0.0-rc.12",
+                         "node-fetch":  "3.3.2",
+                         "zod":  "3.23.8"
+                     },
+    "devDependencies":  {
+                            "typescript":  "5.5.4",
+                            "@types/node":  "20.14.10",
+                            "@types/react":  "18.3.3",
+                            "@types/react-dom":  "18.3.0",
+                            "@types/node-fetch":  "3.0.3",
+                            "tailwindcss":  "3.4.7",
+                            "postcss":  "8.4.40",
+                            "autoprefixer":  "10.4.19",
+                            "tsx":  "4.16.2",
+                            "eslint":  "8.57.0",
+                            "eslint-config-next":  "14.2.5"
+                        }
 }

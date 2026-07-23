@@ -1,16 +1,25 @@
+import Hero from "@/components/Hero";
+
+/**
+ * Home page (AC-4).
+ *
+ * Renders the African-themed Hero immediately under the site Header.
+ * An empty `#restaurants` anchor placeholder sits below the hero so that
+ * the Hero's "Find a Restaurant" CTA already has a valid target; AC-8
+ * will fill this anchor with the real listings grid.
+ */
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center gap-6 p-8 text-center">
-      <h1 className="font-display text-5xl font-bold text-brand-dark">
-        FlavorFind
-      </h1>
-      <p className="text-lg text-brand-mid">
-        Best restaurants in Nigeria — coming online soon.
-      </p>
-      <p className="text-sm text-brand-mid">
-        Project scaffold ready. UI, data, and scraper will land in upcoming
-        iterations.
-      </p>
+    <main>
+      <Hero />
+      {/* AC-8 will render the restaurant listings grid here. */}
+      <section
+        id="restaurants"
+        aria-label="Restaurant listings"
+        className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8"
+      >
+        {/* Intentionally empty in this iteration — placeholder anchor only. */}
+      </section>
     </main>
   );
 }
