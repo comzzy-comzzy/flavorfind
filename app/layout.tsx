@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { brandColors } from "@/lib/brand";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "FlavorFind — Best Restaurants in Nigeria",
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-brand-cream text-brand-dark antialiased">
+        <Header />
         {children}
       </body>
     </html>
