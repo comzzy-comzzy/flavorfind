@@ -60,7 +60,7 @@ function ReviewItem({ review }: { review: ReviewRow }) {
       </blockquote>
       <footer className="mt-3 flex items-center justify-between text-xs text-brand-mid">
         <span className="inline-flex items-center gap-1 font-semibold text-brand-dark">
-          <span aria-hidden="true">?</span>
+          <span aria-hidden="true">★</span>
           {rating}
           <span className="ml-1 text-xs font-normal text-brand-mid">
             / 5
@@ -72,7 +72,7 @@ function ReviewItem({ review }: { review: ReviewRow }) {
           rel="noopener noreferrer"
           target="_blank"
         >
-          Read on source ?
+          Read on source →
         </Link>
       </footer>
     </li>
@@ -221,7 +221,7 @@ export default async function RestaurantDetailPage({
                   Avg rating
                 </p>
                 <p className="font-display text-2xl font-bold text-brand-dark">
-                  <span aria-hidden="true">?</span> {rating}
+                  <span aria-hidden="true">★</span> {rating}
                   <span className="ml-1 text-base font-normal text-brand-mid">
                     / 5
                   </span>
@@ -265,7 +265,7 @@ export default async function RestaurantDetailPage({
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Open source listing ?
+                Open source listing →
               </Link>
             </div>
           </div>
@@ -275,7 +275,7 @@ export default async function RestaurantDetailPage({
               href="/"
               className="font-semibold text-brand-dark underline-offset-2 hover:underline"
             >
-              ? Browse more {row.city} restaurants
+              ← Browse more {row.city} restaurants
             </Link>
           </p>
         </aside>

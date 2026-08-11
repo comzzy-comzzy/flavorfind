@@ -156,7 +156,7 @@ export default async function HomePage({
                 </code>
                 . See{" "}
                 <Link
-                  href="https://github.com/<owner>/flavorfind#readme"
+                  href="https://github.com/comzzy-comzzy/flavorfind#readme"
                   className="font-semibold text-brand-dark underline underline-offset-2 hover:text-brand-light"
                 >
                   the README

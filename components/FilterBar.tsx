@@ -22,7 +22,7 @@ import {
  *
  * Renders three controls:
  *   - City dropdown       (Lagos, Abuja, Port Harcourt, Ibadan, Enugu, Kano)
- *   - Budget tier radio   (Any / ? / ?? / ???)
+ *   - Budget tier radio   (Any / ₦ / ₦₦ / ₦₦₦)
  *   - Cuisine multiselect (checkbox chip set)
  *
  * State flow:
