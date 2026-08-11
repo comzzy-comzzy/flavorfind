@@ -21,6 +21,7 @@ import {
   type RestaurantRow,
   type ReviewRow,
 } from "./supabase";
+import type { RestaurantFilter } from "./filters";
 
 /**
  * Maximum number of restaurants the listing page renders.
@@ -117,9 +118,46 @@ export function formatRelativeScrapedAt(
 
 /**
  * Fetch the top restaurants for a city.
+ *
+ * This thin wrapper exists so the AC-8 listing page keeps its
+ * one-argument call shape. The heavy lifting -- multi-filter support,
+ * cache key derivation, Supabase query assembly -- lives in
+ * `fetchRestaurantsByFilter` below.
  */
 export async function fetchTopRestaurantsByCity(
   city: string,
+  limit: number = LISTING_LIMIT,
+  options: { useCache?: boolean } = {},
+): Promise<RestaurantRow[]> {
+  // The strong city typing in `RestaurantFilter` is enforced by
+  // `parseFilterParams`; the legacy one-argument shape accepts any
+  // string and we forward it as-is. Casting through `unknown` is the
+  // narrowest way to express "we know this string is a supported city
+  // because it came from our own callers".
+  const filter: RestaurantFilter = {
+    city: city as RestaurantFilter["city"],
+  };
+  return fetchRestaurantsByFilter(filter, limit, options);
+}
+
+/**
+ * Fetch the restaurants matching an arbitrary `RestaurantFilter`
+ * (city + budget tier + cuisine multiselect).
+ *
+ * `filter.city` is the dominant selector: when supplied, the query
+ * constrains to that city (case-insensitive). When omitted, the
+ * query still hard-filters by budget tier + cuisines (if any), but
+ * does not restrict by city -- this preserves the AC-7 "soft
+ * preference" semantics, where a missing city filter is treated as
+ * "I'm open to anywhere".
+ *
+ * Caching: we key the `unstable_cache` wrapper on a stable string
+ * derived from the canonical filter shape, so two equivalent filter
+ * objects share the same cached page (the URL params go through
+ * `filtersToQueryString` upstream which already sorts + dedupes).
+ */
+export async function fetchRestaurantsByFilter(
+  filter: RestaurantFilter,
   limit: number = LISTING_LIMIT,
   options: { useCache?: boolean } = {},
 ): Promise<RestaurantRow[]> {
@@ -131,16 +169,31 @@ export async function fetchTopRestaurantsByCity(
   const useCache = options.useCache ?? true;
 
   const doFetch = async (): Promise<RestaurantRow[]> => {
-    const { data, error } = await client
+    let query = client
       .from("restaurants")
-      .select(RESTAURANT_COLUMNS)
-      .ilike("city", city)
+      .select(RESTAURANT_COLUMNS);
+
+    if (filter.city) {
+      query = query.ilike("city", filter.city);
+    }
+    if (filter.budgetTier !== undefined) {
+      query = query.eq("budget_tier", filter.budgetTier);
+    }
+    if (filter.cuisines && filter.cuisines.length > 0) {
+      // Postgres `in (...)` accepts a string[] for text columns; we
+      // forward the canonical values so a stray comma-spelling never
+      // leaks into the SQL.
+      query = query.in("cuisine", filter.cuisines);
+    }
+
+    const { data, error } = await query
       .order("avg_rating", { ascending: false, nullsFirst: false })
       .limit(safeLimit);
+
     if (error) {
       // eslint-disable-next-line no-console
       console.warn(
-        `[restaurants] fetchTopRestaurantsByCity(${city}) failed: ${error.message}`,
+        `[restaurants] fetchRestaurantsByFilter(${JSON.stringify(filter)}) failed: ${error.message}`,
       );
       return [];
     }
@@ -148,17 +201,38 @@ export async function fetchTopRestaurantsByCity(
   };
 
   if (useCache) {
-    const cached = nextCache(
-      doFetch,
-      ["restaurants", "by-city", city, String(safeLimit)],
-      {
-        revalidate: 300,
-        tags: ["restaurants", `restaurants:city:${city.toLowerCase()}`],
-      },
-    );
+    const cacheKey = buildFilterCacheKey(filter, safeLimit);
+    const cached = nextCache(doFetch, cacheKey.parts, {
+      revalidate: 300,
+      tags: cacheKey.tags,
+    });
     return cached();
   }
   return doFetch();
+}
+
+/**
+ * Build a stable `unstable_cache` key + tag list from a filter.
+ * Exported so the verifier (and any future cache-invalidation code)
+ * can derive the same key without depending on the internal helper.
+ */
+export function buildFilterCacheKey(
+  filter: RestaurantFilter,
+  limit: number,
+): { parts: string[]; tags: string[] } {
+  // Canonical (sorted + deduped) JSON keeps semantically equal filters
+  // pointing at the same cache slot.
+  const sortedCuisines = (filter.cuisines ?? []).slice().sort();
+  const canonical = JSON.stringify({
+    city: filter.city ?? null,
+    budgetTier: filter.budgetTier ?? null,
+    cuisines: sortedCuisines,
+    limit,
+  });
+  return {
+    parts: ["restaurants", "by-filter", canonical],
+    tags: ["restaurants", `restaurants:filter:${canonical}`],
+  };
 }
 
 /**

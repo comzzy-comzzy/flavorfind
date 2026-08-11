@@ -1,20 +1,28 @@
-﻿import Link from "next/link";
+﻿import { Suspense } from "react";
+import Link from "next/link";
 
 import {
   DEFAULT_CITY,
   canQueryRestaurants,
-  fetchTopRestaurantsByCity,
+  fetchRestaurantsByFilter,
 } from "@/lib/restaurants";
+import {
+  parseFilterParams,
+  activeFilterCount,
+  isEmptyFilter,
+} from "@/lib/filters";
+import FilterBar from "@/components/FilterBar";
 import Hero from "@/components/Hero";
 import RestaurantCard from "@/components/RestaurantCard";
 
 /**
- * Home page (AC-4 hero + AC-8 listing).
+ * Home page (AC-4 hero + AC-8 listing + AC-9 filters).
  *
- * Renders the African-themed Hero followed by the top restaurants for
- * the default city (Lagos). The page is a Server Component so the
- * Supabase query runs on the server and the response ships as static
- * HTML for visitors without JavaScript.
+ * Renders the African-themed Hero followed by a `FilterBar` and the
+ * top restaurants for the *currently filtered* set. The page is a
+ * Server Component so the Supabase query runs on the server and the
+ * response ships as static-ish HTML (the page is marked
+ * `force-dynamic` because the rendering depends on `searchParams`).
  *
  * When Supabase env vars are missing (e.g. a fresh clone without
  * `.env.local`), the page still renders -- it shows a one-line empty
@@ -22,9 +30,28 @@ import RestaurantCard from "@/components/RestaurantCard";
  * build. This keeps `next dev` and `next build` green on the
  * Vercel-deployable track the plan calls for.
  */
-export default async function HomePage() {
-  const restaurants = await fetchTopRestaurantsByCity(DEFAULT_CITY);
+export const dynamic = "force-dynamic";
+
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const filter = parseFilterParams(searchParams);
+  // `city` is the dominant selector in the FilterBar -- when none is
+  // supplied, fall back to the plan-mandated DEFAULT_CITY ("Lagos")
+  // so the home page never serves an unfiltered countrywide list.
+  const effectiveCity = filter.city ?? DEFAULT_CITY;
+
+  const restaurants = await fetchRestaurantsByFilter(
+    {
+      ...filter,
+      city: effectiveCity,
+    },
+  );
   const configured = canQueryRestaurants();
+  const filterCount = activeFilterCount(filter);
+  const filtersActive = !isEmptyFilter(filter);
 
   return (
     <main>
@@ -44,7 +71,7 @@ export default async function HomePage() {
               id="restaurants-heading"
               className="font-display text-3xl font-bold text-brand-dark sm:text-4xl"
             >
-              {DEFAULT_CITY}&rsquo;s best restaurants
+              {effectiveCity}&rsquo;s best restaurants
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-brand-mid sm:text-base">
               Ranked by real Google reviews and cross-checked against
@@ -55,7 +82,17 @@ export default async function HomePage() {
           <p className="text-xs uppercase tracking-wide text-brand-mid">
             Showing {restaurants.length} restaurant
             {restaurants.length === 1 ? "" : "s"}
+            {filtersActive ? ` for ${filterCount} filter${filterCount === 1 ? "" : "s"}` : ""}
           </p>
+        </div>
+
+        <div className="mt-6">
+          {/* `useSearchParams` opts this client component into
+              Next.js' dynamic rendering; wrapping it in <Suspense>
+              keeps the rest of the page (hero, layout) streamable. */}
+          <Suspense fallback={<FilterBarFallback />}>
+            <FilterBar currentFilter={filter} />
+          </Suspense>
         </div>
 
         {restaurants.length > 0 ? (
@@ -75,18 +112,26 @@ export default async function HomePage() {
             className="mt-8 rounded-2xl border border-dashed border-brand-accent/50 bg-white/60 p-8 text-center text-brand-mid"
           >
             <p className="font-display text-lg font-semibold text-brand-dark">
-              No restaurants yet for {DEFAULT_CITY}.
+              {filtersActive
+                ? `No restaurants match your filters in ${effectiveCity}.`
+                : `No restaurants yet for ${effectiveCity}.`}
             </p>
             {configured ? (
-              <p className="mt-2 text-sm">
-                Supabase is reachable, but the table is empty. Run
-                {" "}
-                <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                  npm run scrape
-                </code>
-                {" "}
-                to populate it.
-              </p>
+              filtersActive ? (
+                <p className="mt-2 text-sm">
+                  Try widening the budget tier or removing a cuisine.
+                </p>
+              ) : (
+                <p className="mt-2 text-sm">
+                  Supabase is reachable, but the table is empty. Run
+                  {" "}
+                  <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
+                    npm run scrape
+                  </code>
+                  {" "}
+                  to populate it.
+                </p>
+              )
             ) : (
               <p className="mt-2 text-sm">
                 Supabase env vars are not configured for this deployment.
@@ -123,5 +168,21 @@ export default async function HomePage() {
         )}
       </section>
     </main>
+  );
+}
+
+/**
+ * Lightweight non-JS placeholder rendered while the FilterBar's
+ * client bundle hydrates. Mirrors the FilterBar container so the
+ * layout doesn't jump. Marked `role="status"` so AT users hear
+ * "Loading filters...".
+ */
+function FilterBarFallback() {
+  return (
+    <div
+      role="status"
+      aria-label="Loading filters"
+      className="h-[88px] animate-pulse rounded-2xl border border-brand-accent/30 bg-white/60 p-4 shadow-sm sm:h-[76px]"
+    />
   );
 }
