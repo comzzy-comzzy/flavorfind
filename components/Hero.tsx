@@ -1,31 +1,39 @@
-// credit: Hero photograph "Nigerian chef preparing a meal in Lagos" by
-// credit: Tope A. Asokere, hosted on Unsplash (free to use under the
-// credit: Unsplash License — https://unsplash.com/license).
-// credit: Source page: https://unsplash.com/photos/8f129e1688ce
-// credit: Direct file URL used by this component:
-// credit:   https://images.unsplash.com/photo-1531746020798-e6953c6e8e04
+"use client";
 
-/**
- * Hero block rendered on the home page.
- *
- * Per AC-4:
- *   - Ankara/Adire-inspired SVG pattern is applied as a CSS background
- *     via the `bg-ankara-pattern` utility (which Tailwind resolves to
- *     `url('/patterns/ankara.svg')` — see tailwind.config.ts).
- *   - Hero image is a real Unsplash photograph of happy Nigerians; the
- *     photographer is credited in the `// credit:` comment block at the
- *     top of this file and on-screen in the caption strip below the
- *     photograph.
- *   - Headline, sub-headline, and the primary CTA "Find a Restaurant"
- *     are visible above the fold at the 375 / 768 / 1280 px breakpoints
- *     called out in AC-10. Headline + CTA sit in the first column on
- *     desktop and stack above the image on mobile.
- *
- * The CTA currently points at `/#restaurants`; the listings section with
- * id="restaurants" lands in the AC-8 iteration, at which point the
- * anchor becomes a real target.
- */
+import { useState, useEffect, useCallback } from "react";
+
+// credit: Hero images retrieved from Autiqo folder (African1.png, African2.png, African3.png)
+const SLIDES = [
+  {
+    src: "/African1.png",
+    alt: "Beautiful African dining experience showcasing local cuisine and culture",
+  },
+  {
+    src: "/African2.png",
+    alt: "Joyful group of friends sharing a delicious traditional Nigerian meal",
+  },
+  {
+    src: "/African3.png",
+    alt: "Expert chef plating a gourmet modern African fusion dish",
+  },
+];
+
 export default function Hero() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % SLIDES.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + SLIDES.length) % SLIDES.length);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 4500);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
+
   return (
     <section
       aria-labelledby="hero-headline"
@@ -34,49 +42,104 @@ export default function Hero() {
       {/* Cream wash keeps the headline legible over the patterned ground. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-cream/90 via-brand-cream/75 to-brand-cream/60"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-cream/95 via-brand-cream/80 to-brand-cream/65"
       />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:px-8">
-        {/* Headline + CTA column. Stays above the fold on mobile. */}
-        <div className="flex flex-col items-center gap-5 text-center lg:items-start lg:text-left">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-mid">
-            Eat &middot; Nigeria
-          </p>
+        {/* Headline + CTA column */}
+        <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
+          <span className="rounded-full bg-brand-dark/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-brand-dark">
+            Taste of Nigeria
+          </span>
           <h1
             id="hero-headline"
-            className="font-display text-4xl font-bold leading-tight text-brand-dark sm:text-5xl lg:text-6xl"
+            className="font-display text-4xl font-extrabold leading-tight text-brand-dark sm:text-5xl lg:text-6xl"
           >
             Find Nigeria&rsquo;s best restaurants, one plate at a time.
           </h1>
-          <p className="max-w-xl text-base text-brand-mid sm:text-lg">
-            Live picks from Lagos, Abuja, Port Harcourt and beyond &mdash;
-            ranked by budget, location, and what real diners are saying.
+          <p className="max-w-xl text-base text-brand-mid sm:text-lg leading-relaxed">
+            Discover vetted spots in Lagos, Abuja, Port Harcourt, and beyond. Explore top culinary spots curated by budget, cuisine, and real verified reviews.
           </p>
           <a
             href="/#restaurants"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-dark px-6 py-3 text-base font-semibold text-brand-cream shadow-sm transition-colors hover:bg-brand-mid focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
+            className="inline-flex items-center gap-2 rounded-full bg-brand-dark px-8 py-3.5 text-base font-bold text-brand-cream shadow-lg transition-transform hover:scale-105 hover:bg-brand-mid focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2"
           >
             Find a Restaurant
             <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
 
-        {/* Hero photograph. Caption credits the photographer (also in the
-            header comment block). */}
-        <div className="relative">
-          <figure className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-3xl border-4 border-brand-cream shadow-xl ring-1 ring-brand-dark/20 sm:aspect-[5/4] lg:max-w-none">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=900&q=80"
-              alt="A Nigerian chef smiling while preparing a meal in a sunlit kitchen in Lagos."
-              loading="eager"
-              className="h-full w-full object-cover"
-            />
-            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark/85 via-brand-dark/45 to-transparent px-4 py-3 text-xs text-brand-cream">
-              Photo: Tope A. Asokere via Unsplash
-            </figcaption>
-          </figure>
+        {/* Sliding Carousel Column */}
+        <div className="relative w-full max-w-md mx-auto lg:max-w-none">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[1.1/1]">
+            {/* Slides container */}
+            <div className="relative h-full w-full bg-brand-dark/5">
+              {SLIDES.map((slide, index) => {
+                const isActive = index === currentIndex;
+                return (
+                  <div
+                    key={slide.src}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      isActive ? "opacity-100 z-10" : "opacity-0 z-0"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={slide.src}
+                      alt={slide.alt}
+                      className={`h-full w-full object-cover transition-transform duration-[4500ms] ease-out ${
+                        isActive ? "scale-105" : "scale-100"
+                      }`}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Left navigation arrow */}
+            <button
+              onClick={prevSlide}
+              aria-label="Previous slide"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur-sm text-brand-dark shadow-md transition-all hover:bg-white hover:scale-110 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                <path
+                  fillRule="evenodd"
+                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+
+            {/* Right navigation arrow */}
+            <button
+              onClick={nextSlide}
+              aria-label="Next slide"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/70 backdrop-blur-sm text-brand-dark shadow-md transition-all hover:bg-white hover:scale-110 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-dark"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-5 w-5">
+                <path
+                  fillRule="evenodd"
+                  d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+
+            {/* Slide Dots / Indicators */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+              {SLIDES.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    index === currentIndex ? "w-6 bg-white" : "w-2.5 bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

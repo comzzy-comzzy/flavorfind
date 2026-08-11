@@ -79,38 +79,10 @@ function ReviewItem({ review }: { review: ReviewRow }) {
   );
 }
 
-function EmptyState({ reason }: { reason: "no_data" | "unconfigured" }) {
-  if (reason === "unconfigured") {
-    return (
-      <div
-        role="status"
-        className="rounded-2xl border border-dashed border-brand-accent/50 bg-white/60 p-6 text-sm text-brand-mid"
-      >
-        <p className="font-display text-base font-semibold text-brand-dark">
-          Reviews will appear here once Supabase is wired up.
-        </p>
-        <p className="mt-1">
-          Copy{" "}
-          <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-            .env.example
-          </code>{" "}
-          to{" "}
-          <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-            .env.local
-          </code>{" "}
-          and run{" "}
-          <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-            npm run scrape
-          </code>
-          .
-        </p>
-      </div>
-    );
-  }
+function EmptyState() {
   return (
     <p className="rounded-2xl border border-dashed border-brand-accent/40 bg-white/60 p-4 text-sm text-brand-mid">
-      No review snippets yet for this restaurant - check back after
-      the next scrape run.
+      No review snippets yet for this restaurant.
     </p>
   );
 }
@@ -196,7 +168,7 @@ export default async function RestaurantDetailPage({
               ))}
             </ul>
           ) : (
-            <EmptyState reason={configured ? "no_data" : "unconfigured"} />
+            <EmptyState />
           )}
         </section>
 

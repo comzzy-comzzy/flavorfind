@@ -426,16 +426,16 @@ function run(): void {
     budgetTierOptionLabel(undefined) === "Any",
   );
   assert(
-    "budgetTierOptionLabel(2) === '₦₦' (two Naira glyphs)",
-    budgetTierOptionLabel(2) === "₦₦",
+    "budgetTierOptionLabel(2) === 'Mid-range'",
+    budgetTierOptionLabel(2) === "Mid-range",
   );
   assert(
-    "budgetTierOptionLabel(1) === '₦' (single Naira glyph)",
-    budgetTierOptionLabel(1) === "₦",
+    "budgetTierOptionLabel(1) === 'Budget'",
+    budgetTierOptionLabel(1) === "Budget",
   );
   assert(
-    "budgetTierOptionLabel(3) === '₦₦₦' (three Naira glyphs)",
-    budgetTierOptionLabel(3) === "₦₦₦",
+    "budgetTierOptionLabel(3) === 'Fine Dining'",
+    budgetTierOptionLabel(3) === "Fine Dining",
   );
 
   // -----------------------------------------------------------------

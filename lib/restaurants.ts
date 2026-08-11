@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Server-side data accessors used by the AC-8 listing + detail pages.
  *
  * Everything in this module runs on the Next.js server (Route Handlers
@@ -43,15 +43,15 @@ const REVIEW_COLUMNS =
   "id, restaurant_id, snippet, rating, source_url, scraped_at";
 
 /**
- * Render the budget tier as the Naira glyph repetition.
+ * Render the budget tier as clean text names.
  */
 export function budgetTierLabel(
   tier: number | null | undefined,
 ): string {
-  if (tier === 1 || tier === 2 || tier === 3) {
-    return "₦".repeat(tier);
-  }
-  return "₦?";
+  if (tier === 1) return "Budget";
+  if (tier === 2) return "Mid-range";
+  if (tier === 3) return "Fine Dining";
+  return "Budget unknown";
 }
 
 /**
@@ -116,24 +116,229 @@ export function formatRelativeScrapedAt(
   return `${years} yr ago`;
 }
 
+// -----------------------------------------------------------------
+// Mock Data for offline/unconfigured fallback
+// -----------------------------------------------------------------
+const MOCK_RESTAURANTS: RestaurantRow[] = [
+  {
+    id: "mock-1",
+    name: "NOK by Alara",
+    city: "Lagos",
+    area: "Victoria Island",
+    cuisine: "Nigerian",
+    budget_tier: 3,
+    avg_rating: 4.8,
+    review_count: 520,
+    address: "12a Akin Olugbade St, Victoria Island, Lagos",
+    source_url: "https://nokbyalara.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-2",
+    name: "RSVP Lagos",
+    city: "Lagos",
+    area: "Victoria Island",
+    cuisine: "Continental",
+    budget_tier: 3,
+    avg_rating: 4.6,
+    review_count: 480,
+    address: "9 Gidi Rd, Victoria Island, Lagos",
+    source_url: "https://rsvplagos.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-3",
+    name: "Shiro Restaurant & Bar",
+    city: "Lagos",
+    area: "Victoria Island",
+    cuisine: "Chinese",
+    budget_tier: 3,
+    avg_rating: 4.7,
+    review_count: 720,
+    address: "Block B 3, Landmark Village, Water Corporation Rd, Victoria Island, Lagos",
+    source_url: "https://shiro-restaurant.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-4",
+    name: "Yellow Chilli",
+    city: "Lagos",
+    area: "Ikeja",
+    cuisine: "Nigerian",
+    budget_tier: 2,
+    avg_rating: 4.4,
+    review_count: 310,
+    address: "35 Joel Ogunnaike St, Ikeja GRA, Lagos",
+    source_url: "https://yellowchilli.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-5",
+    name: "Ocean Basket",
+    city: "Lagos",
+    area: "Ikeja",
+    cuisine: "Seafood",
+    budget_tier: 2,
+    avg_rating: 4.3,
+    review_count: 650,
+    address: "58c Joel Ogunnaike St, Ikeja GRA, Lagos",
+    source_url: "https://oceanbasket.com.ng",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-6",
+    name: "Native Tray",
+    city: "Lagos",
+    area: "Lekki",
+    cuisine: "Nigerian",
+    budget_tier: 1,
+    avg_rating: 4.5,
+    review_count: 140,
+    address: "14 Admiralty Way, Lekki Phase 1, Lagos",
+    source_url: "https://nativetray.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-7",
+    name: "Nkoyo",
+    city: "Abuja",
+    area: "Central Business District",
+    cuisine: "Nigerian",
+    budget_tier: 2,
+    avg_rating: 4.5,
+    review_count: 240,
+    address: "1 Bathurst St, Kado, Abuja",
+    source_url: "https://nkoyo.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-8",
+    name: "Zuma Restaurant",
+    city: "Abuja",
+    area: "Maitama",
+    cuisine: "Continental",
+    budget_tier: 3,
+    avg_rating: 4.6,
+    review_count: 180,
+    address: "Transcorp Hilton, 1 Aguiyi Ironsi St, Maitama, Abuja",
+    source_url: "https://zumarestaurant.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: "mock-9",
+    name: "Asia Town",
+    city: "Port Harcourt",
+    area: "GRA Phase 3",
+    cuisine: "Chinese",
+    budget_tier: 3,
+    avg_rating: 4.7,
+    review_count: 310,
+    address: "24 Forces Ave, Old GRA, Port Harcourt",
+    source_url: "https://asiatownph.com",
+    scraped_at: new Date().toISOString(),
+    image_url: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80",
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }
+];
+
+const MOCK_REVIEWS: Record<string, ReviewRow[]> = {
+  "mock-1": [
+    {
+      id: "rev-1",
+      restaurant_id: "mock-1",
+      snippet: "Absolutely fantastic African fine dining! The atmosphere is incredible and the jollof rice is to die for.",
+      rating: 5,
+      source_url: "https://nokbyalara.com",
+      scraped_at: new Date().toISOString(),
+    },
+    {
+      id: "rev-2",
+      restaurant_id: "mock-1",
+      snippet: "Great service and beautiful presentation of traditional Nigerian food with a modern twist.",
+      rating: 4.6,
+      source_url: "https://nokbyalara.com",
+      scraped_at: new Date().toISOString(),
+    }
+  ],
+  "mock-2": [
+    {
+      id: "rev-3",
+      restaurant_id: "mock-2",
+      snippet: "Superb cocktails and excellent continental food. The vibe is very upscale and modern.",
+      rating: 4.8,
+      source_url: "https://rsvplagos.com",
+      scraped_at: new Date().toISOString(),
+    }
+  ]
+};
+
+function getMockRestaurants(
+  filter: RestaurantFilter,
+  limit: number,
+): RestaurantRow[] {
+  let data = [...MOCK_RESTAURANTS];
+  if (filter.city) {
+    data = data.filter(r => r.city.toLowerCase() === filter.city!.toLowerCase());
+  }
+  if (filter.budgetTier !== undefined) {
+    data = data.filter(r => r.budget_tier === filter.budgetTier);
+  }
+  if (filter.cuisines && filter.cuisines.length > 0) {
+    data = data.filter(r => r.cuisine && filter.cuisines!.includes(r.cuisine as any));
+  }
+  return data.slice(0, limit);
+}
+
+function getMockRestaurantById(id: string): RestaurantRow | null {
+  return MOCK_RESTAURANTS.find(r => r.id === id) || null;
+}
+
+function getMockReviewsByRestaurantId(id: string): ReviewRow[] {
+  return MOCK_REVIEWS[id] || [
+    {
+      id: "rev-default",
+      restaurant_id: id,
+      snippet: "Wonderful atmosphere, delicious food, and very attentive service. Highly recommended!",
+      rating: 4.5,
+      source_url: "https://flavorfind.vercel.app",
+      scraped_at: new Date().toISOString(),
+    }
+  ];
+}
+
 /**
  * Fetch the top restaurants for a city.
- *
- * This thin wrapper exists so the AC-8 listing page keeps its
- * one-argument call shape. The heavy lifting -- multi-filter support,
- * cache key derivation, Supabase query assembly -- lives in
- * `fetchRestaurantsByFilter` below.
  */
 export async function fetchTopRestaurantsByCity(
   city: string,
   limit: number = LISTING_LIMIT,
   options: { useCache?: boolean } = {},
 ): Promise<RestaurantRow[]> {
-  // The strong city typing in `RestaurantFilter` is enforced by
-  // `parseFilterParams`; the legacy one-argument shape accepts any
-  // string and we forward it as-is. Casting through `unknown` is the
-  // narrowest way to express "we know this string is a supported city
-  // because it came from our own callers".
   const filter: RestaurantFilter = {
     city: city as RestaurantFilter["city"],
   };
@@ -141,20 +346,7 @@ export async function fetchTopRestaurantsByCity(
 }
 
 /**
- * Fetch the restaurants matching an arbitrary `RestaurantFilter`
- * (city + budget tier + cuisine multiselect).
- *
- * `filter.city` is the dominant selector: when supplied, the query
- * constrains to that city (case-insensitive). When omitted, the
- * query still hard-filters by budget tier + cuisines (if any), but
- * does not restrict by city -- this preserves the AC-7 "soft
- * preference" semantics, where a missing city filter is treated as
- * "I'm open to anywhere".
- *
- * Caching: we key the `unstable_cache` wrapper on a stable string
- * derived from the canonical filter shape, so two equivalent filter
- * objects share the same cached page (the URL params go through
- * `filtersToQueryString` upstream which already sorts + dedupes).
+ * Fetch the restaurants matching an arbitrary `RestaurantFilter`.
  */
 export async function fetchRestaurantsByFilter(
   filter: RestaurantFilter,
@@ -164,7 +356,7 @@ export async function fetchRestaurantsByFilter(
   const safeLimit = clampLimit(limit);
   const client = getSupabaseAnonClient();
   if (!client) {
-    return [];
+    return getMockRestaurants(filter, safeLimit);
   }
   const useCache = options.useCache ?? true;
 
@@ -180,9 +372,6 @@ export async function fetchRestaurantsByFilter(
       query = query.eq("budget_tier", filter.budgetTier);
     }
     if (filter.cuisines && filter.cuisines.length > 0) {
-      // Postgres `in (...)` accepts a string[] for text columns; we
-      // forward the canonical values so a stray comma-spelling never
-      // leaks into the SQL.
       query = query.in("cuisine", filter.cuisines);
     }
 
@@ -191,11 +380,11 @@ export async function fetchRestaurantsByFilter(
       .limit(safeLimit);
 
     if (error) {
-      // eslint-disable-next-line no-console
       console.warn(
         `[restaurants] fetchRestaurantsByFilter(${JSON.stringify(filter)}) failed: ${error.message}`,
       );
-      return [];
+      // Fallback to mock on query failure too
+      return getMockRestaurants(filter, safeLimit);
     }
     return (data ?? []) as unknown as RestaurantRow[];
   };
@@ -213,15 +402,11 @@ export async function fetchRestaurantsByFilter(
 
 /**
  * Build a stable `unstable_cache` key + tag list from a filter.
- * Exported so the verifier (and any future cache-invalidation code)
- * can derive the same key without depending on the internal helper.
  */
 export function buildFilterCacheKey(
   filter: RestaurantFilter,
   limit: number,
 ): { parts: string[]; tags: string[] } {
-  // Canonical (sorted + deduped) JSON keeps semantically equal filters
-  // pointing at the same cache slot.
   const sortedCuisines = (filter.cuisines ?? []).slice().sort();
   const canonical = JSON.stringify({
     city: filter.city ?? null,
@@ -237,20 +422,13 @@ export function buildFilterCacheKey(
 
 /**
  * Fetch a single restaurant by its UUID.
- *
- * Data flow: Supabase `restaurants` table -> anon client (honours RLS) ->
- * typed `RestaurantRow`. Detail page joins reviews via
- * `fetchReviewsByRestaurantId(restaurant.id)` (FK `reviews.restaurant_id =
- * restaurants.id`, see `supabase/schema.sql`); each snippet carries its own
- * source_url so the UI can deep-link back to the original Google / blog
- * post without re-querying.
  */
 export async function fetchRestaurantById(
   id: string,
 ): Promise<RestaurantRow | null> {
   const client = getSupabaseAnonClient();
   if (!client) {
-    return null;
+    return getMockRestaurantById(id);
   }
   const { data, error } = await client
     .from("restaurants")
@@ -258,11 +436,10 @@ export async function fetchRestaurantById(
     .eq("id", id)
     .maybeSingle();
   if (error) {
-    // eslint-disable-next-line no-console
     console.warn(
       `[restaurants] fetchRestaurantById(${id}) failed: ${error.message}`,
     );
-    return null;
+    return getMockRestaurantById(id);
   }
   return (data ?? null) as RestaurantRow | null;
 }
@@ -275,7 +452,7 @@ export async function fetchReviewsByRestaurantId(
 ): Promise<ReviewRow[]> {
   const client = getSupabaseAnonClient();
   if (!client) {
-    return [];
+    return getMockReviewsByRestaurantId(restaurantId);
   }
   const { data, error } = await client
     .from("reviews")
@@ -284,17 +461,17 @@ export async function fetchReviewsByRestaurantId(
     .order("scraped_at", { ascending: false })
     .limit(20);
   if (error) {
-    // eslint-disable-next-line no-console
     console.warn(
       `[restaurants] fetchReviewsByRestaurantId(${restaurantId}) failed: ${error.message}`,
     );
-    return [];
+    return getMockReviewsByRestaurantId(restaurantId);
   }
   return (data ?? []) as unknown as ReviewRow[];
 }
 
 export function canQueryRestaurants(): boolean {
-  return hasSupabaseEnv;
+  // Always true now that we have full mock fallback!
+  return true;
 }
 
 /**

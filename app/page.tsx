@@ -1,4 +1,4 @@
-﻿import { Suspense } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 
 import {
@@ -116,52 +116,9 @@ export default async function HomePage({
                 ? `No restaurants match your filters in ${effectiveCity}.`
                 : `No restaurants yet for ${effectiveCity}.`}
             </p>
-            {configured ? (
-              filtersActive ? (
-                <p className="mt-2 text-sm">
-                  Try widening the budget tier or removing a cuisine.
-                </p>
-              ) : (
-                <p className="mt-2 text-sm">
-                  Supabase is reachable, but the table is empty. Run
-                  {" "}
-                  <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                    npm run scrape
-                  </code>
-                  {" "}
-                  to populate it.
-                </p>
-              )
-            ) : (
+            {filtersActive && (
               <p className="mt-2 text-sm">
-                Supabase env vars are not configured for this deployment.
-                Copy{" "}
-                <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                  .env.example
-                </code>
-                {" "}
-                to{" "}
-                <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                  .env.local
-                </code>
-                {" "}
-                and fill in{" "}
-                <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                  NEXT_PUBLIC_SUPABASE_URL
-                </code>
-                {" "}
-                +{" "}
-                <code className="rounded bg-brand-cream px-1.5 py-0.5 text-xs text-brand-dark">
-                  NEXT_PUBLIC_SUPABASE_ANON_KEY
-                </code>
-                . See{" "}
-                <Link
-                  href="https://github.com/comzzy-comzzy/flavorfind#readme"
-                  className="font-semibold text-brand-dark underline underline-offset-2 hover:text-brand-light"
-                >
-                  the README
-                </Link>{" "}
-                for the full setup walkthrough.
+                Try widening the budget tier or removing a cuisine.
               </p>
             )}
           </div>

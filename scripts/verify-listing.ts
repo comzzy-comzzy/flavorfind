@@ -192,22 +192,22 @@ function run(): void {
   // budgetTierLabel -- ₦ is U+20A6 (Naira Sign); use escapes so the
   // verifier stays ASCII-clean regardless of editor / shell encoding.
   const NAIRA = "₦";
-  assert("budgetTierLabel(1) === one naira glyph", budgetTierLabel(1) === NAIRA);
+  assert("budgetTierLabel(1) === 'Budget'", budgetTierLabel(1) === "Budget");
   assert(
-    "budgetTierLabel(2) === two naira glyphs",
-    budgetTierLabel(2) === NAIRA.repeat(2),
+    "budgetTierLabel(2) === 'Mid-range'",
+    budgetTierLabel(2) === "Mid-range",
   );
   assert(
-    "budgetTierLabel(3) === three naira glyphs",
-    budgetTierLabel(3) === NAIRA.repeat(3),
+    "budgetTierLabel(3) === 'Fine Dining'",
+    budgetTierLabel(3) === "Fine Dining",
   );
   assert(
     "budgetTierLabel(null) falls back to placeholder",
-    budgetTierLabel(null) === `${NAIRA}?`,
+    budgetTierLabel(null) === "Budget unknown",
   );
   assert(
     "budgetTierLabel(0) falls back to placeholder",
-    budgetTierLabel(0) === `${NAIRA}?`,
+    budgetTierLabel(0) === "Budget unknown",
   );
 
   // formatRating -- em dash is U+2014.
