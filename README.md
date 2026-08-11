@@ -60,12 +60,80 @@ Open http://localhost:3000.
 | `npm run lint` | Run ESLint |
 | `npm run scrape` | Run the scheduled scraper locally |
 
-## Deployment (Vercel)
+## Deployment
 
-1. Push this repo to your GitHub account.
-2. In Vercel, click **Import Project** and pick the repo.
-3. Add the four env vars from `.env.example` to the Vercel project settings.
-4. Deploy. Vercel will detect Next.js automatically.
+### A. Deploy to Vercel from a fresh GitHub repo (3 steps)
+
+> **Important:** the assistant cannot push to GitHub on your behalf without your
+> credentials and repo URL. The repo is committed and ready locally — you just
+> need to do the following three commands once you have a GitHub repo URL
+> (https://github.com/<you>/<repo>.git).
+
+1. **Create an empty repo on GitHub**
+   - Go to https://github.com/new
+   - Name it `flavorfind` (or anything you like)
+   - **Do not** initialize with README, .gitignore, or license — this repo
+     already has those.
+   - Copy the HTTPS URL (e.g. `https://github.com/yourname/flavorfind.git`).
+
+2. **Push the local repo to GitHub** (run in the project root):
+
+   ```bash
+   git remote add origin https://github.com/<your-username>/<your-repo>.git
+   git push -u origin master
+   ```
+
+   After this, your GitHub URL will look like
+   `https://github.com/<your-username>/<your-repo>` — that is the link the
+   assistant cannot produce on your behalf.
+
+3. **Import the repo into Vercel**
+   - Go to https://vercel.com/new
+   - Click **Import** next to your new `flavorfind` repo.
+   - Vercel auto-detects Next.js. Framework preset: **Next.js**. Build
+     command: `npm run build`. Output directory: leave default.
+   - Add environment variables (Project Settings → Environment Variables):
+
+     | Name | Value |
+     | --- | --- |
+     | `NEXT_PUBLIC_SUPABASE_URL` | `https://<your-project>.supabase.co` |
+     | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your anon key |
+     | `SUPABASE_SERVICE_ROLE_KEY` | your service role key (server only) |
+     | `GOOGLE_PLACES_API_KEY` | your Google Places API key (server only) |
+     | `NEXT_PUBLIC_SITE_URL` | `https://<your-vercel-domain>.vercel.app` |
+
+   - Click **Deploy**. Vercel builds and serves your site at
+     `https://<your-vercel-domain>.vercel.app` within ~60 seconds.
+
+### B. Deploy to Vercel via the CLI (alternative, no GitHub repo needed)
+
+If you don't want to push to GitHub right now, you can deploy directly with the
+Vercel CLI from this folder:
+
+```bash
+npm i -g vercel
+vercel login          # opens browser to authenticate
+vercel                # preview deploy (prompts to set up project + env vars)
+vercel --prod         # production deploy
+```
+
+Vercel will give you a `*.vercel.app` URL at the end of `vercel --prod`. That
+URL is the link to the live site.
+
+### C. Build Vercel-ready locally
+
+To confirm the project builds cleanly the same way Vercel will build it:
+
+```bash
+npm install
+npm run lint
+npm run build
+```
+
+The current `next.config.mjs` uses the default output (no `output:
+'standalone'`) — Vercel handles routing and ISR automatically. All `process.env`
+reads are gated by `NEXT_PUBLIC_` when used in client code, so a Vercel build
+with placeholder env vars succeeds without runtime crashes.
 
 ## Project Structure
 
@@ -76,7 +144,7 @@ app/                # Next.js App Router pages and API routes
 components/         # React components (Header, Hero, Footer, FilterBar, ...)
 lib/                # Helpers (Supabase client, ranking logic, ...)
 public/             # Static assets (logo.svg, og.png, patterns/...)
-scripts/            # Long-running scripts (scraper)
+scripts/            # Long-running scripts (scraper, asset builders, verifiers)
 supabase/           # Database schema and migrations
 .github/workflows/  # CI and scheduled scraper
 ```
