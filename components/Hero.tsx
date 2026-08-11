@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const IMAGES = [
   { src: "/African1.png", alt: "A Nigerian couple in traditional dress" },
@@ -10,6 +10,13 @@ const IMAGES = [
 export default function Hero() {
   const [current, setCurrent] = useState(0);
   const touchStart = useRef<number | null>(null);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setCurrent((value) => (value + 1) % IMAGES.length);
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, []);
 
   function move(direction: -1 | 1) {
     setCurrent((value) => (value + direction + IMAGES.length) % IMAGES.length);
@@ -44,9 +51,25 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="w-full border border-brand-dark/20 bg-brand-cocoa shadow-[18px_18px_0_rgba(84,52,39,0.14)]">
-          <div
-            className="relative aspect-[3/2] overflow-hidden"
+        <div className="w-full bg-[#4A2A20] p-3 shadow-[18px_18px_0_rgba(84,52,39,0.14)] ring-1 ring-brand-dark/30 sm:p-5">
+          <div className="border border-brand-light/80 p-1.5 sm:p-2">
+            <div className="border border-brand-light/40 px-3 pb-3 pt-4 sm:px-5 sm:pb-5 sm:pt-5">
+              <div className="mb-4 flex items-center justify-between gap-4 border-b border-brand-light/50 pb-3 text-brand-paper">
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.35em] text-brand-light">
+                    FlavorFind
+                  </p>
+                  <p className="mt-1 font-display text-lg tracking-wide sm:text-xl">
+                    The Nigerian Dining Guide
+                  </p>
+                </div>
+                <span className="font-script text-2xl text-brand-light sm:text-3xl">
+                  Menu
+                </span>
+              </div>
+
+              <div
+                className="relative aspect-[3/2] overflow-hidden border border-brand-light/40 bg-brand-sand shadow-inner"
             onTouchStart={(event) => {
               touchStart.current = event.touches[0]?.clientX ?? null;
             }}
@@ -57,36 +80,50 @@ export default function Hero() {
               if (Math.abs(distance) > 45) move(distance < 0 ? 1 : -1);
               touchStart.current = null;
             }}
-          >
-            <div
-              className="flex h-full transition-transform duration-700 ease-[cubic-bezier(.22,.61,.36,1)]"
-              style={{ transform: `translateX(-${current * 100}%)` }}
-            >
-              {IMAGES.map((image, index) => (
-                <figure
-                  key={image.src}
-                  className="h-full min-w-full bg-brand-sand"
-                  aria-hidden={index !== current}
+              >
+                <div
+                  className="flex h-full transition-transform duration-700 ease-[cubic-bezier(.22,.61,.36,1)]"
+                  style={{ transform: `translateX(-${current * 100}%)` }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    draggable={false}
-                    className={[
-                      "h-full w-full select-none object-contain",
-                      index === 0 ? "mix-blend-multiply" : "",
-                    ].join(" ")}
-                  />
-                </figure>
-              ))}
-            </div>
+                  {IMAGES.map((image, index) => (
+                    <figure
+                      key={image.src}
+                      className="h-full min-w-full bg-brand-sand"
+                      aria-hidden={index !== current}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        draggable={false}
+                        className={[
+                          "h-full w-full select-none object-contain",
+                          index === 0 ? "mix-blend-multiply" : "",
+                        ].join(" ")}
+                      />
+                    </figure>
+                  ))}
+                </div>
 
-            <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-brand-dark/75 to-transparent px-5 pb-4 pt-12 text-brand-paper">
-              <p className="font-script text-2xl">Nigeria, from city to city</p>
-              <div className="flex gap-2">
-                <button type="button" onClick={() => move(-1)} aria-label="Previous image" className="grid h-9 w-9 place-items-center border border-brand-paper/60 bg-brand-dark/20 text-lg backdrop-blur-sm transition hover:bg-brand-paper hover:text-brand-dark">←</button>
-                <button type="button" onClick={() => move(1)} aria-label="Next image" className="grid h-9 w-9 place-items-center border border-brand-paper/60 bg-brand-dark/20 text-lg backdrop-blur-sm transition hover:bg-brand-paper hover:text-brand-dark">→</button>
+                <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-brand-dark/75 to-transparent px-5 pb-4 pt-12 text-brand-paper">
+                  <p className="font-script text-2xl">Nigeria, from city to city</p>
+                  <div className="flex gap-2">
+                    <button type="button" onClick={() => move(-1)} aria-label="Previous image" className="grid h-9 w-9 place-items-center border border-brand-paper/60 bg-brand-dark/20 text-lg backdrop-blur-sm transition hover:bg-brand-paper hover:text-brand-dark">←</button>
+                    <button type="button" onClick={() => move(1)} aria-label="Next image" className="grid h-9 w-9 place-items-center border border-brand-paper/60 bg-brand-dark/20 text-lg backdrop-blur-sm transition hover:bg-brand-paper hover:text-brand-dark">→</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-center gap-3" aria-label={`Image ${current + 1} of ${IMAGES.length}`}>
+                {IMAGES.map((image, index) => (
+                  <button
+                    key={image.src}
+                    type="button"
+                    onClick={() => setCurrent(index)}
+                    aria-label={`Show image ${index + 1}`}
+                    className={`h-1 transition-all ${index === current ? "w-8 bg-brand-light" : "w-4 bg-brand-paper/30"}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
