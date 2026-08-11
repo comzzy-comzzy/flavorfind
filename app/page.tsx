@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 
 import {
-  DEFAULT_CITY,
   canQueryRestaurants,
   fetchRestaurantsByFilter,
 } from "@/lib/restaurants";
@@ -38,17 +37,9 @@ export default async function HomePage({
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const filter = parseFilterParams(searchParams);
-  // `city` is the dominant selector in the FilterBar -- when none is
-  // supplied, fall back to the plan-mandated DEFAULT_CITY ("Lagos")
-  // so the home page never serves an unfiltered countrywide list.
-  const effectiveCity = filter.city ?? DEFAULT_CITY;
-
-  const restaurants = await fetchRestaurantsByFilter(
-    {
-      ...filter,
-      city: effectiveCity,
-    },
-  );
+  // With no city selected, show the countrywide guide. Choosing a city
+  // narrows the same listing without making Lagos the implicit default.
+  const restaurants = await fetchRestaurantsByFilter(filter);
   const configured = canQueryRestaurants();
   const filterCount = activeFilterCount(filter);
   const filtersActive = !isEmptyFilter(filter);
@@ -71,7 +62,9 @@ export default async function HomePage({
               id="restaurants-heading"
               className="mt-1 font-display text-4xl font-normal tracking-tight text-brand-dark sm:text-5xl"
             >
-              Places to know in {effectiveCity}
+              {filter.city
+                ? `Places to know in ${filter.city}`
+                : "Places to know across Nigeria"}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-brand-mid sm:text-base">
               A useful shortlist for dinner plans, quick lunches and memorable occasions—drawn from current listings and trusted local voices.
@@ -111,8 +104,8 @@ export default async function HomePage({
           >
             <p className="font-display text-lg font-semibold text-brand-dark">
               {filtersActive
-                ? `No restaurants match your filters in ${effectiveCity}.`
-                : `No restaurants yet for ${effectiveCity}.`}
+                ? `No restaurants match your filters${filter.city ? ` in ${filter.city}` : " across Nigeria"}.`
+                : "No restaurants have been listed across Nigeria yet."}
             </p>
             {filtersActive && (
               <p className="mt-2 text-sm">

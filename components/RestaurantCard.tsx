@@ -45,7 +45,7 @@ export default function RestaurantCard({
           reflows with the viewport so a single card on a mobile
           (taller portrait) reads better than the same card filling a
           wide cell on desktop (more landscape). */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-olive sm:aspect-[5/4]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-cocoa sm:aspect-[5/4]">
         {restaurant.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

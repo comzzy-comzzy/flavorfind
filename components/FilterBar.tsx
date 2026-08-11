@@ -314,7 +314,7 @@ export default function FilterBar({
               type="submit"
               disabled={isPending || !draftIsDirty}
               aria-disabled={isPending || !draftIsDirty}
-              className="inline-flex items-center justify-center bg-brand-olive px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-paper transition-colors hover:bg-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex items-center justify-center bg-brand-cocoa px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-paper transition-colors hover:bg-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? "Applying" : "Apply filters"}
             </button>

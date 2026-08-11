@@ -5,11 +5,11 @@
   tailwind.config.ts) and re-run `npm run build:pattern`.
 
   Brand palette sourced from tailwind.config.ts:
-    brand.cream  = #F3EEE3
-    brand.dark   = #201D18
-    brand.light  = #B79052
-    brand.mid    = #655D51
-    brand.accent = #9D2F2B
+    brand.cream  = #F2E8DA
+    brand.dark   = #211714
+    brand.light  = #C49A63
+    brand.mid    = #6C554B
+    brand.accent = #8E3F2D
 
   Ankara/Adire-inspired geometric tile (80 x 80 px). Tiles seamlessly
   horizontally and vertically when used as a CSS background — see the
@@ -20,37 +20,37 @@
   <desc>A tileable Ankara/Adire-inspired geometric pattern using the FlavorFind brown palette.</desc>
 
   <!-- Cream base -->
-  <rect width="80" height="80" fill="#F3EEE3"/>
+  <rect width="80" height="80" fill="#F2E8DA"/>
 
   <!-- 4x4 alternating diamonds on a 20 px grid (tile-friendly) -->
   <g>
     <!-- Row 1 (y centre = 10) -->
-    <path d="M 10 2 L 18 10 L 10 18 L 2 10 Z" fill="#201D18"/>
-    <path d="M 30 2 L 38 10 L 30 18 L 22 10 Z" fill="#B79052"/>
-    <path d="M 50 2 L 58 10 L 50 18 L 42 10 Z" fill="#201D18"/>
-    <path d="M 70 2 L 78 10 L 70 18 L 62 10 Z" fill="#B79052"/>
+    <path d="M 10 2 L 18 10 L 10 18 L 2 10 Z" fill="#211714"/>
+    <path d="M 30 2 L 38 10 L 30 18 L 22 10 Z" fill="#C49A63"/>
+    <path d="M 50 2 L 58 10 L 50 18 L 42 10 Z" fill="#211714"/>
+    <path d="M 70 2 L 78 10 L 70 18 L 62 10 Z" fill="#C49A63"/>
 
     <!-- Row 2 (y centre = 30) -->
-    <path d="M 10 22 L 18 30 L 10 38 L 2 30 Z" fill="#B79052"/>
-    <path d="M 30 22 L 38 30 L 30 38 L 22 30 Z" fill="#201D18"/>
-    <path d="M 50 22 L 58 30 L 50 38 L 42 30 Z" fill="#B79052"/>
-    <path d="M 70 22 L 78 30 L 70 38 L 62 30 Z" fill="#201D18"/>
+    <path d="M 10 22 L 18 30 L 10 38 L 2 30 Z" fill="#C49A63"/>
+    <path d="M 30 22 L 38 30 L 30 38 L 22 30 Z" fill="#211714"/>
+    <path d="M 50 22 L 58 30 L 50 38 L 42 30 Z" fill="#C49A63"/>
+    <path d="M 70 22 L 78 30 L 70 38 L 62 30 Z" fill="#211714"/>
 
     <!-- Row 3 (y centre = 50) -->
-    <path d="M 10 42 L 18 50 L 10 58 L 2 50 Z" fill="#201D18"/>
-    <path d="M 30 42 L 38 50 L 30 58 L 22 50 Z" fill="#B79052"/>
-    <path d="M 50 42 L 58 50 L 50 58 L 42 50 Z" fill="#201D18"/>
-    <path d="M 70 42 L 78 50 L 70 58 L 62 50 Z" fill="#B79052"/>
+    <path d="M 10 42 L 18 50 L 10 58 L 2 50 Z" fill="#211714"/>
+    <path d="M 30 42 L 38 50 L 30 58 L 22 50 Z" fill="#C49A63"/>
+    <path d="M 50 42 L 58 50 L 50 58 L 42 50 Z" fill="#211714"/>
+    <path d="M 70 42 L 78 50 L 70 58 L 62 50 Z" fill="#C49A63"/>
 
     <!-- Row 4 (y centre = 70) -->
-    <path d="M 10 62 L 18 70 L 10 78 L 2 70 Z" fill="#B79052"/>
-    <path d="M 30 62 L 38 70 L 30 78 L 22 70 Z" fill="#201D18"/>
-    <path d="M 50 62 L 58 70 L 50 78 L 42 70 Z" fill="#B79052"/>
-    <path d="M 70 62 L 78 70 L 70 78 L 62 70 Z" fill="#201D18"/>
+    <path d="M 10 62 L 18 70 L 10 78 L 2 70 Z" fill="#C49A63"/>
+    <path d="M 30 62 L 38 70 L 30 78 L 22 70 Z" fill="#211714"/>
+    <path d="M 50 62 L 58 70 L 50 78 L 42 70 Z" fill="#C49A63"/>
+    <path d="M 70 62 L 78 70 L 70 78 L 62 70 Z" fill="#211714"/>
   </g>
 
   <!-- Inner accent dots (mid brown) anchor each diamond -->
-  <g fill="#655D51">
+  <g fill="#6C554B">
     <circle cx="10" cy="10" r="1.6"/>
     <circle cx="30" cy="10" r="1.6"/>
     <circle cx="50" cy="10" r="1.6"/>
