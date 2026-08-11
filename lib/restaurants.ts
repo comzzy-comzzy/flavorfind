@@ -163,6 +163,13 @@ export async function fetchTopRestaurantsByCity(
 
 /**
  * Fetch a single restaurant by its UUID.
+ *
+ * Data flow: Supabase `restaurants` table -> anon client (honours RLS) ->
+ * typed `RestaurantRow`. Detail page joins reviews via
+ * `fetchReviewsByRestaurantId(restaurant.id)` (FK `reviews.restaurant_id =
+ * restaurants.id`, see `supabase/schema.sql`); each snippet carries its own
+ * source_url so the UI can deep-link back to the original Google / blog
+ * post without re-querying.
  */
 export async function fetchRestaurantById(
   id: string,
