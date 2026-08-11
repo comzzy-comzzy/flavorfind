@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-// credit: Hero images retrieved from Autiqo folder (African1.png, African2.png, African3.png)
+// credit: Hero images retrieved from Autiqo folder (African1.png, African2.png)
 const SLIDES = [
   {
     src: "/African1.png",
@@ -11,10 +11,6 @@ const SLIDES = [
   {
     src: "/African2.png",
     alt: "Joyful group of friends sharing a delicious traditional Nigerian meal",
-  },
-  {
-    src: "/African3.png",
-    alt: "Expert chef plating a gourmet modern African fusion dish",
   },
 ];
 
@@ -71,7 +67,7 @@ export default function Hero() {
 
         {/* Sliding Carousel Column */}
         <div className="relative w-full max-w-md mx-auto lg:max-w-none">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[1.1/1]">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[16/10] lg:aspect-[4/5]">
             {/* Slides container */}
             <div className="relative h-full w-full bg-brand-dark/5">
               {SLIDES.map((slide, index) => {

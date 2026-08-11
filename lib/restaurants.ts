@@ -212,7 +212,7 @@ const MOCK_RESTAURANTS: RestaurantRow[] = [
     address: "14 Admiralty Way, Lekki Phase 1, Lagos",
     source_url: "https://nativetray.com",
     scraped_at: new Date().toISOString(),
-    image_url: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?auto=format&fit=crop&w=800&q=80",
+    image_url: "https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=800&q=80",
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },
