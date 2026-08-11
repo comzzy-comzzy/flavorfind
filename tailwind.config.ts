@@ -16,6 +16,7 @@ const config: Config = {
           mid: "#6C554B",
           accent: "#8E3F2D",
           cocoa: "#3A241C",
+          sand: "#D8B892",
           paper: "#FBF5EC",
         },
       },
