@@ -41,8 +41,11 @@ export default function RestaurantCard({
       className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-accent/30 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-light hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
     >
       {/* Cover image -- falls back to a brown-tone gradient if the
-          scraper hasn't recorded an image_url yet. */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-brand-light via-brand-accent to-brand-mid">
+          scraper hasn't recorded an image_url yet. Aspect ratio
+          reflows with the viewport so a single card on a mobile
+          (taller portrait) reads better than the same card filling a
+          wide cell on desktop (more landscape). */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-brand-light via-brand-accent to-brand-mid sm:aspect-[5/3]">
         {restaurant.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -69,9 +72,9 @@ export default function RestaurantCard({
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
         <header className="flex flex-col gap-1">
-          <h3 className="font-display text-lg font-semibold leading-snug text-brand-dark group-hover:text-brand-mid">
+          <h3 className="font-display text-lg font-semibold leading-snug text-brand-dark group-hover:text-brand-mid sm:text-xl">
             {restaurant.name}
           </h3>
           {subtitle ? (
