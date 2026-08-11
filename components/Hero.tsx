@@ -69,7 +69,7 @@ export default function Hero() {
         <div className="relative w-full max-w-md mx-auto lg:max-w-none">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[16/10] lg:aspect-[4/5]">
             {/* Slides container */}
-            <div className="relative h-full w-full bg-brand-dark/5">
+            <div className="relative h-full w-full bg-white">
               {SLIDES.map((slide, index) => {
                 const isActive = index === currentIndex;
                 return (

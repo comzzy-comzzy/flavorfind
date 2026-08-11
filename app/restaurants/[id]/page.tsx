@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import type { RestaurantRow, ReviewRow } from "@/lib/supabase";
 import {
@@ -130,6 +130,9 @@ export default async function RestaurantDetailPage({
   const restaurant = await fetchRestaurantById(params.id);
   if (!restaurant) {
     notFound();
+  }
+  if (restaurant.source_url) {
+    redirect(restaurant.source_url);
   }
   const row: RestaurantRow = restaurant;
   const reviews = await fetchReviewsByRestaurantId(row.id);
