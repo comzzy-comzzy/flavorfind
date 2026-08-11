@@ -67,29 +67,32 @@ export default function Hero() {
 
         {/* Sliding Carousel Column */}
         <div className="relative w-full max-w-md mx-auto lg:max-w-none">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[16/10] lg:aspect-[4/5]">
+          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-3xl border-4 border-white shadow-2xl ring-1 ring-brand-dark/10 sm:aspect-[3/2] lg:aspect-[3/2]">
             {/* Slides container */}
-            <div className="relative h-full w-full bg-white">
-              {SLIDES.map((slide, index) => {
-                const isActive = index === currentIndex;
-                return (
-                  <div
-                    key={slide.src}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                      isActive ? "opacity-100 z-10" : "opacity-0 z-0"
-                    }`}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={slide.src}
-                      alt={slide.alt}
-                      className={`h-full w-full object-cover transition-transform duration-[4500ms] ease-out ${
-                        isActive ? "scale-105" : "scale-100"
-                      }`}
-                    />
-                  </div>
-                );
-              })}
+            <div className="relative h-full w-full bg-white overflow-hidden">
+              <div
+                className="flex h-full w-full transition-transform duration-700 ease-out"
+                style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+              >
+                {SLIDES.map((slide, index) => {
+                  const isActive = index === currentIndex;
+                  return (
+                    <div
+                      key={slide.src}
+                      className="h-full w-full flex-shrink-0"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={slide.src}
+                        alt={slide.alt}
+                        className={`h-full w-full object-cover transition-transform duration-[4500ms] ease-out ${
+                          isActive ? "scale-105" : "scale-100"
+                        }`}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Left navigation arrow */}
