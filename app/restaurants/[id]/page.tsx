@@ -143,7 +143,7 @@ function DetailHero({ restaurant }: { restaurant: RestaurantRow }) {
         <p className="text-sm sm:text-base">
           {[restaurant.area, restaurant.cuisine, restaurant.city]
             .filter((v): v is string => Boolean(v && v.trim()))
-            .join(" • ")}
+            .join(" â€¢ ")}
         </p>
       </div>
     </div>
@@ -165,7 +165,7 @@ export default async function RestaurantDetailPage({
 
   const subtitle = [row.area, row.cuisine]
     .filter((v): v is string => Boolean(v && v.trim()))
-    .join(" • ");
+    .join(" â€¢ ");
   const budget = budgetTierLabel(row.budget_tier);
   const rating = formatRating(row.avg_rating);
   const reviewsLabel = formatReviewCount(row.review_count);
