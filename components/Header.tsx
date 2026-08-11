@@ -23,8 +23,8 @@ import MobileMenu from "@/components/MobileMenu";
  */
 export default function Header() {
   return (
-    <header className="relative border-b border-brand-accent/40 bg-brand-cream/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+    <header className="relative z-40 border-b border-brand-dark/15 bg-brand-paper/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
         <Link
           href="/"
           aria-label="FlavorFind home"
@@ -35,19 +35,20 @@ export default function Header() {
           <img
             src="/logo.svg"
             alt="FlavorFind logo"
-            className="h-10 w-auto sm:h-12 md:h-14"
+            className="h-9 w-auto sm:h-10"
           />
         </Link>
         <nav
           aria-label="Primary"
-          className="hidden items-center gap-6 text-sm font-medium text-brand-dark md:flex"
+          className="hidden items-center gap-8 text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-dark md:flex"
         >
           <Link
             href="/"
-            className="rounded-md px-2 py-1 transition-colors hover:text-brand-light focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+            className="border-b border-transparent px-1 py-2 transition-colors hover:border-brand-accent hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
           >
-            Home
+            The guide
           </Link>
+          <a href="/#restaurants" className="border-b border-transparent px-1 py-2 transition-colors hover:border-brand-accent hover:text-brand-accent">Find a table</a>
         </nav>
         <MobileMenu />
       </div>

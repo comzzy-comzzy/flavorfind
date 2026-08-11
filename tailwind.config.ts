@@ -10,20 +10,19 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          // Light brown / tan — primary surface accent
-          light: "#C8A165",
-          // Dark brown / espresso — text and primary surfaces
-          dark: "#3E2723",
-          // Cream — soft background tone
-          cream: "#F5E6D3",
-          // Optional supporting tones (still in-family browns)
-          mid: "#8D6E63",
-          accent: "#A1887F",
+          light: "#B79052",
+          dark: "#201D18",
+          cream: "#F3EEE3",
+          mid: "#655D51",
+          accent: "#9D2F2B",
+          olive: "#29352A",
+          paper: "#FBF8F1",
         },
       },
       fontFamily: {
         sans: ["ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
-        display: ["Georgia", "Cambria", "Times New Roman", "serif"],
+        display: ["Bodoni 72", "Didot", "Iowan Old Style", "Georgia", "serif"],
+        script: ["Monotype Corsiva", "Apple Chancery", "URW Chancery L", "Brush Script MT", "cursive"],
       },
       backgroundImage: {
         "ankara-pattern": "url('/patterns/ankara.svg')",

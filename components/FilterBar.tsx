@@ -203,14 +203,14 @@ export default function FilterBar({
     <form
       aria-label="Filter restaurants"
       onSubmit={onApply}
-      className="rounded-2xl border border-brand-accent/30 bg-white p-4 shadow-sm sm:p-5"
+      className="border-y border-brand-dark/20 bg-brand-paper/70 px-1 py-6 sm:px-6"
     >
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:gap-6">
         {/* ---- City dropdown ---- */}
         <div className="flex flex-col gap-1 lg:max-w-[14rem]">
           <label
             htmlFor={cityFieldId}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-mid"
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-mid"
           >
             City
           </label>
@@ -220,7 +220,7 @@ export default function FilterBar({
               name="city"
               value={draft.city ?? ""}
               onChange={onCityChange}
-              className="w-full appearance-none rounded-lg border border-brand-accent/40 bg-brand-cream/60 px-3 py-2 pr-9 text-sm font-semibold text-brand-dark focus:border-brand-light focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              className="w-full appearance-none border-0 border-b border-brand-dark/35 bg-transparent px-0 py-2 pr-9 font-display text-base text-brand-dark focus:border-brand-accent focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-light"
             >
               <option value="">All cities</option>
               {SUPPORTED_CITIES.map((city) => (
@@ -256,7 +256,7 @@ export default function FilterBar({
         >
           <legend
             id={`${budgetFieldSetId}-legend`}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-mid"
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-mid"
           >
             Budget tier
           </legend>
@@ -287,7 +287,7 @@ export default function FilterBar({
         >
           <legend
             id={`${cuisineFieldSetId}-legend`}
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-mid"
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-mid"
           >
             Cuisine
           </legend>
@@ -314,7 +314,7 @@ export default function FilterBar({
               type="submit"
               disabled={isPending || !draftIsDirty}
               aria-disabled={isPending || !draftIsDirty}
-              className="inline-flex items-center justify-center rounded-full bg-brand-dark px-5 py-2 text-sm font-semibold text-brand-cream shadow-sm transition-colors hover:bg-brand-mid focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center bg-brand-olive px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-paper transition-colors hover:bg-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? "Applying" : "Apply filters"}
             </button>
@@ -323,18 +323,18 @@ export default function FilterBar({
               onClick={onClear}
               disabled={isPending || isEmptyFilter(currentFilter)}
               aria-disabled={isPending || isEmptyFilter(currentFilter)}
-              className="inline-flex items-center justify-center rounded-full border border-brand-accent/40 bg-white px-4 py-2 text-sm font-semibold text-brand-dark transition-colors hover:bg-brand-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center justify-center border-b border-brand-dark/40 px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-dark transition-colors hover:border-brand-accent hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light disabled:cursor-not-allowed disabled:opacity-50"
             >
               Clear
               {liveCount > 0 ? (
-                <span className="ml-1 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-brand-dark px-1.5 text-[11px] font-bold text-brand-cream">
+                <span className="ml-1 text-[10px] text-brand-accent">
                   {liveCount}
                 </span>
               ) : null}
             </button>
           </div>
           <p
-            className="text-[11px] text-brand-mid"
+            className="text-[10px] italic text-brand-mid"
             aria-live="polite"
           >
             {liveCount === 0
@@ -369,10 +369,10 @@ function BudgetRadio({
   return (
     <label
       className={[
-        "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+        "inline-flex cursor-pointer items-center gap-1.5 border-b px-1 py-1.5 text-xs transition-colors",
         checked
-          ? "border-brand-dark bg-brand-dark text-brand-cream shadow-sm"
-          : "border-brand-accent/40 bg-brand-cream/60 text-brand-dark hover:border-brand-light hover:bg-brand-cream",
+          ? "border-brand-accent font-semibold text-brand-accent"
+          : "border-brand-dark/20 text-brand-dark hover:border-brand-light",
       ].join(" ")}
     >
       <input
@@ -415,10 +415,10 @@ function CuisineChip({
     <label
       htmlFor={id}
       className={[
-        "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors",
+        "inline-flex cursor-pointer items-center gap-1.5 border-b px-1 py-1.5 text-xs transition-colors",
         checked
-          ? "border-brand-dark bg-brand-dark text-brand-cream shadow-sm"
-          : "border-brand-accent/40 bg-brand-cream/60 text-brand-dark hover:border-brand-light hover:bg-brand-cream",
+          ? "border-brand-accent font-semibold text-brand-accent"
+          : "border-brand-dark/20 text-brand-dark hover:border-brand-light",
       ].join(" ")}
     >
       <input

@@ -38,33 +38,33 @@ export default function RestaurantCard({
   return (
     <Link
       href={`/restaurants/${restaurant.id}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-brand-accent/30 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-light hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
+      className="group flex h-full flex-col overflow-hidden border-b border-brand-dark/20 bg-transparent pb-5 transition-colors hover:border-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
     >
       {/* Cover image -- falls back to a brown-tone gradient if the
           scraper hasn't recorded an image_url yet. Aspect ratio
           reflows with the viewport so a single card on a mobile
           (taller portrait) reads better than the same card filling a
           wide cell on desktop (more landscape). */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-brand-light via-brand-accent to-brand-mid sm:aspect-[5/3]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-olive sm:aspect-[5/4]">
         {restaurant.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={restaurant.image_url}
             alt={`Cover photo of ${restaurant.name}`}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="h-full w-full object-cover grayscale-[12%] transition duration-700 group-hover:scale-[1.025] group-hover:grayscale-0"
           />
         ) : (
           <div
             aria-hidden="true"
-            className="flex h-full w-full items-center justify-center text-brand-cream/80"
+            className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_center,_#526253,_#29352A)] text-brand-cream/80"
           >
-            <span className="font-display text-3xl font-bold tracking-tight">
+            <span className="font-script text-7xl font-normal tracking-tight">
               {restaurant.name.slice(0, 1).toUpperCase()}
             </span>
           </div>
         )}
-        <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-brand-dark/85 px-2.5 py-1 text-xs font-semibold text-brand-cream">
+        <span className="absolute left-0 top-0 inline-flex items-center gap-1 bg-brand-paper px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-dark">
           <span aria-hidden="true">{budget}</span>
           <span className="sr-only">
             Budget tier {restaurant.budget_tier} of 3
@@ -72,13 +72,13 @@ export default function RestaurantCard({
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
+      <div className="flex flex-1 flex-col gap-3 pt-5">
         <header className="flex flex-col gap-1">
-          <h3 className="font-display text-lg font-semibold leading-snug text-brand-dark group-hover:text-brand-mid sm:text-xl">
+          <h3 className="font-display text-2xl font-normal leading-snug tracking-tight text-brand-dark transition-colors group-hover:text-brand-accent sm:text-[1.7rem]">
             {restaurant.name}
           </h3>
           {subtitle ? (
-            <p className="text-xs uppercase tracking-wide text-brand-mid">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-mid">
               {subtitle}
             </p>
           ) : (
@@ -90,7 +90,7 @@ export default function RestaurantCard({
 
         <dl className="mt-auto grid grid-cols-2 gap-2 text-xs text-brand-mid">
           <div className="flex flex-col">
-            <dt className="font-semibold uppercase tracking-wide text-brand-dark">
+            <dt className="text-[9px] font-semibold uppercase tracking-[0.2em] text-brand-mid">
               Rating
             </dt>
             <dd className="text-base font-semibold text-brand-dark">
@@ -101,7 +101,7 @@ export default function RestaurantCard({
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="font-semibold uppercase tracking-wide text-brand-dark">
+            <dt className="text-[9px] font-semibold uppercase tracking-[0.2em] text-brand-mid">
               Reviews
             </dt>
             <dd className="text-base font-semibold text-brand-dark">
@@ -110,7 +110,7 @@ export default function RestaurantCard({
           </div>
         </dl>
 
-        <footer className="flex items-center justify-between border-t border-brand-accent/20 pt-3 text-[11px] text-brand-mid">
+        <footer className="flex items-center justify-between border-t border-brand-dark/10 pt-3 text-[10px] uppercase tracking-wider text-brand-mid">
           <span>Updated {freshness}</span>
           <span
             aria-hidden="true"

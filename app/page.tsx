@@ -60,26 +60,24 @@ export default async function HomePage({
       <section
         id="restaurants"
         aria-labelledby="restaurants-heading"
-        className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8"
+        className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8"
       >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-mid">
-              Top picks
+            <p className="font-script text-3xl text-brand-accent sm:text-4xl">
+              The dining edit
             </p>
             <h2
               id="restaurants-heading"
-              className="font-display text-3xl font-bold text-brand-dark sm:text-4xl"
+              className="mt-1 font-display text-4xl font-normal tracking-tight text-brand-dark sm:text-5xl"
             >
-              {effectiveCity}&rsquo;s best restaurants
+              Places to know in {effectiveCity}
             </h2>
-            <p className="mt-2 max-w-2xl text-sm text-brand-mid sm:text-base">
-              Ranked by real Google reviews and cross-checked against
-              Nigerian food blogs. Data refreshes weekly via the
-              scraper.
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-brand-mid sm:text-base">
+              A useful shortlist for dinner plans, quick lunches and memorable occasions—drawn from current listings and trusted local voices.
             </p>
           </div>
-          <p className="text-xs uppercase tracking-wide text-brand-mid">
+          <p className="border-t border-brand-dark/20 pt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-mid">
             Showing {restaurants.length} restaurant
             {restaurants.length === 1 ? "" : "s"}
             {filtersActive ? ` for ${filterCount} filter${filterCount === 1 ? "" : "s"}` : ""}
@@ -98,7 +96,7 @@ export default async function HomePage({
         {restaurants.length > 0 ? (
           <ul
             aria-label="Restaurant listings"
-            className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-10 grid grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
           >
             {restaurants.map((restaurant) => (
               <li key={restaurant.id} className="h-full">

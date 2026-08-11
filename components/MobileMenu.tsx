@@ -99,7 +99,7 @@ export default function MobileMenu() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-brand-accent/40 bg-white/70 text-brand-dark transition-colors hover:bg-brand-cream focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light focus-visible:ring-offset-2 focus-visible:ring-offset-brand-cream"
+        className="inline-flex h-10 w-10 items-center justify-center border border-brand-dark/25 bg-transparent text-brand-dark transition-colors hover:border-brand-accent hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
       >
         <span aria-hidden="true" className="sr-only">
           {open ? "Close menu" : "Open menu"}
@@ -141,7 +141,7 @@ export default function MobileMenu() {
           role="dialog"
           aria-modal="true"
           aria-labelledby={buttonId}
-          className="absolute inset-x-0 top-full z-30 mt-2 mx-4 rounded-2xl border border-brand-accent/40 bg-brand-cream p-4 shadow-lg ring-1 ring-brand-dark/10"
+          className="absolute inset-x-0 top-full z-30 border-y border-brand-dark/20 bg-brand-paper p-5 shadow-xl"
         >
           <nav aria-label="Mobile primary">
             <ul className="flex flex-col gap-1 text-base font-semibold text-brand-dark">
